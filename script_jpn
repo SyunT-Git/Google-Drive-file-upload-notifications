@@ -1,6 +1,6 @@
 function checkFolderForUpdates() {
   // 通知するフォルダのIDをここに設定する
-  var folderIds = ['folder1_ID', 'folder2_ID', 'folder3_ID'];
+  var folderIds = ['folder1-2_ID', 'folder2-2_ID'];
 
   // 通知するLINE Notify APIトークンをここに設定する
   var LINE_TOKEN = "TOKEN";
