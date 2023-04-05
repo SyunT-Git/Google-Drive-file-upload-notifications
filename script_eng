@@ -1,6 +1,6 @@
 function checkFolderForUpdates() {
   // Set the ID of the folder to be notified here
-  var folderIds = ['folder1_ID', 'folder2_ID', 'folder3_ID'];
+  var folderIds = ['folder1-2_ID', 'folder2-2_ID'];
   
   // Set the LINE Notify API token to be notified here
   var LINE_TOKEN = "TOKEN";
