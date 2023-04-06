@@ -56,8 +56,10 @@ function checkFolderForUpdates() {
       for (var j = 0; j < fileList.length; j++) {
         message += "  " + fileList[j] + "\n";
       }
-    }else{
-      message = today.toLocaleDateString() + "\n" + "\n" + "今日の更新はありません" + "\n";
+    }
+    
+     if (fileList.length = 0){
+     message = today.toLocaleDateString() + "\n" + "\n" + "今日の更新はありません" + "\n";
     }
   }
   
