@@ -22,6 +22,8 @@ function checkFolderForUpdates() {
   // Add the date to the beginning of the message
   message = today.toLocaleDateString() + message;
 
+  // Initialize flag whether there are new files or not
+  var newFiles = false;
   
   for (var i = 0; i < folderIds.length; i++) {
     var folder = DriveApp.getFolderById(folderIds[i]);
@@ -40,42 +42,55 @@ function checkFolderForUpdates() {
       if (!notifiedFiles[fileId]) {
         fileList.push(fileName);
         notifiedFiles[fileId] = true;
+        // Set a flag that there is a new file
+        newFiles = true;
       }
     }
     
-    // Sort filenames by string order
+    // Sort filenames in string order
     fileList.sort(function(a, b) {
       return a.localeCompare(b);
     });
     
-
     // If the file list is not empty, add the folder name and file list to the message
-    // If the file list is empty, it notifies "No updates today".
     if (fileList.length > 0) {
       message += "\n" + "\n" + "[" + folderName + "]" + "\n";
       for (var j = 0; j < fileList.length; j++) {
         message += "  " + fileList[j] + "\n";
       }
     }
-    
-    if (fileList.length = 0){
-      message = today.toLocaleDateString() + "\n" + "\n" + "今日の更新はありません" + "\n";
-    }
   }
   
   // Save notified file information
   properties.setProperty("notifiedFiles", JSON.stringify(notifiedFiles));
   
-  // Notify LINE if message is not empty.
-  if (message !== "") {
-    var payload = {
-      "message": message
-    };
-    var options = {
-      "method": "post",
-      "headers": {"Authorization": "Bearer " + LINE_TOKEN},
-      "payload": payload
-    };
-    UrlFetchApp.fetch("https://notify-api.line.me/api/notify", options);
+  // If there are no new files, notify "No updates today"
+  if (!newFiles) {
+    message += "\n" + "今日の更新はありません";
+  }
+
+  // Notify LINE Notify
+  var payload = {
+    "message": message
+  };
+
+  var options = {
+    "method": "post",
+    "headers": {
+      "Authorization": "Bearer " + LINE_TOKEN
+    },
+    "payload": payload
+  };
+
+  // Send a request to LINE Notify API
+  var response = UrlFetchApp.fetch("https://notify-api.line.me/api/notify", options);
+
+  // Get response status code
+  var responseCode = response.getResponseCode();
+
+  // If the response status code is not 200, log an error
+  if (responseCode !== 200) {
+    Logger.log("LINE Notify API 通知エラー: ステータスコード " + responseCode);
   }
 }
+
