@@ -66,7 +66,7 @@ function checkFolderForUpdates() {
   
   // If there are no new files, notify "No updates today"
   if (!newFiles) {
-    message += "\n" + "今日の更新はありません";
+    message += "\n" + "No update today.";
   }
 
   // Notify LINE Notify
