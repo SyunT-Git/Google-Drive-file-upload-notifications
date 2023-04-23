@@ -90,7 +90,7 @@ function checkFolderForUpdates() {
 
   // If the response status code is not 200, log an error
   if (responseCode !== 200) {
-    Logger.log("LINE Notify API 通知エラー: ステータスコード " + responseCode);
+    Logger.log("LINE Notify API Notification Error: Status Code " + responseCode);
   }
 }
 
